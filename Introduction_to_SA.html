@@ -1,0 +1,639 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Introduction to Sentiment Analysis &#8212; Sentiment Analysis</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Document-Level Sentiment Analysis with Lexicon and Machine Learning Methods" href="Lexicon_and_Machine_Learning.html" />
+    <link rel="prev" title="Overview" href="intro.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo1.jpg" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Sentiment Analysis</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Overview
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Introduction to Sentiment Analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Lexicon_and_Machine_Learning.html">
+   Document-Level Sentiment Analysis with Lexicon and Machine Learning Methods
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Deep_Learning.html">
+   Document Level Sentiment Analysis with Deep Learning Models
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="GRACE_trained_for_ABSA_on_twitter_data.html">
+   Aspect-Based Sentiment Analysis on Twitter Data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="GRACE_trained_for_ABEA_on_twitter_data.html">
+   Aspect-Based Emotion Analysis on Twitter Data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Twemlab_Aspect_Term_Annotation.html">
+   Annotating Twemlab Goldstandard Files to Include Aspect Term Labels
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Datasets.html">
+   Datasets for Sentiment Analysis and Aspect-Based Sentiment Analysis
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/executablebooks/jupyter-book"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FIntroduction_to_SA.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/Introduction_to_SA.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#definitions">
+   Definitions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#use-over-time">
+   Use over time
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#differentiating-between-emotion-and-sentiment">
+   Differentiating between Emotion and Sentiment
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#opinion-vs-sentiment">
+   Opinion vs. Sentiment
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#types-of-sentiment-analysis">
+   Types of Sentiment Analysis
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#challenges-in-sentiment-analysis">
+   Challenges in Sentiment Analysis
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#generic-sentiment-analysis-process">
+   Generic Sentiment Analysis Process
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sa-methods-overview">
+   SA Methods Overview
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Introduction to Sentiment Analysis</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#definitions">
+   Definitions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#use-over-time">
+   Use over time
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#differentiating-between-emotion-and-sentiment">
+   Differentiating between Emotion and Sentiment
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#opinion-vs-sentiment">
+   Opinion vs. Sentiment
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#types-of-sentiment-analysis">
+   Types of Sentiment Analysis
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#challenges-in-sentiment-analysis">
+   Challenges in Sentiment Analysis
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#generic-sentiment-analysis-process">
+   Generic Sentiment Analysis Process
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sa-methods-overview">
+   SA Methods Overview
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section id="introduction-to-sentiment-analysis">
+<h1>Introduction to Sentiment Analysis<a class="headerlink" href="#introduction-to-sentiment-analysis" title="Permalink to this headline">#</a></h1>
+<section id="definitions">
+<h2>Definitions<a class="headerlink" href="#definitions" title="Permalink to this headline">#</a></h2>
+<blockquote>
+<div><p>“Sentiment analysis, also called opinion mining, is a field of study that <strong>analyses people’s opinions</strong>, sentiments, appraisals, attitudes and emotions <strong>towards entities and their attributes</strong> expressed in written text” <sup>[1]</sup></p>
+</div></blockquote>
+<blockquote>
+<div><p>“Sentiment analysis, also called Opinion Mining, is the task of extracting and analysing people’s opinions, sentiments, attitudes, perceptions, etc., toward different entities such as topics, products, and services.” <sup>[2]</sup></p>
+</div></blockquote>
+<p>Sentiment analysis (SA) is <strong>a classification problem</strong><sup>[2]</sup> that aims to generate sentiment labels (positive, neutral, negative) for a given input dataset. For the most part, sentiment analysis is recognised as a <strong>sub-discipline of both NLP</strong> (natural language processing) and semantic analysis, but it is also referenced under the fields of data mining, web mining, information retrieval, and machine learning<sup>[1][6]</sup>. Although SA is a sub-discipline of NLP, it encompasses many individual NLP subtasks such as sarcasm and subjectivity detection<sup>[2]</sup>.</p>
+</section>
+<section id="use-over-time">
+<h2>Use over time<a class="headerlink" href="#use-over-time" title="Permalink to this headline">#</a></h2>
+<p>Natural language processing began in the 1950s, however sentiment analysis only became a branch of interest around 2005 (Yue et al., 2018). Predecessors to SA were common throughout the 1990s, … Since the 2000s, the explosive growth in digital and social media has led to a boom in digital records.. In recent years, researchers have also begun exploring methods for multi-modal SA, i.e. the use of images, videos and audio formats as well as text<sup>[1][6]</sup>. Since 2004, there has been growing interest in this research area<sup>[2]</sup>.</p>
+<p><img alt="image" src="_images/useovertime.png" /></p>
+</section>
+<section id="differentiating-between-emotion-and-sentiment">
+<h2>Differentiating between Emotion and Sentiment<a class="headerlink" href="#differentiating-between-emotion-and-sentiment" title="Permalink to this headline">#</a></h2>
+<p>Yue et al., (2019) point out that the terms “emotion” and “sentiment” are often used interchangeably, whereas the field of psychology draw a clear line between the two. For the field of sentiment analysis, a prerequisite for any successful analysis is to clearly define the outcome and element of interest, i.e. emotions or sentiments.</p>
+<p>Emotions are consistent of a subjective experience, a physical response, and a behavioural response. Sentiments are merely a mental attitude, often based on emotions. As such, sentiments are mechanisms for conveying thoughts of an individual based on their emotion<sup>[21]</sup>.</p>
+<p>From a psychological point of view, emotion and sentiment are two different concepts. As for emotions, Watson and Tellegen’s well-known model forms a two-dimensional structure of emotions (figure below), while psychologist Paul Eckman and others proposed sets of basic emotions.</p>
+<details>
+<summary>List of Basic Emotions (click to expand)</summary>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Basic Emotions</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Happiness</p></td>
+</tr>
+<tr class="row-odd"><td><p>Sadness</p></td>
+</tr>
+<tr class="row-even"><td><p>Anger</p></td>
+</tr>
+<tr class="row-odd"><td><p>Fear</p></td>
+</tr>
+<tr class="row-even"><td><p>Surprise</p></td>
+</tr>
+<tr class="row-odd"><td><p>Disgust</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>More Emotions added later</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>Pride</p></td>
+</tr>
+<tr class="row-even"><td><p>Excitement</p></td>
+</tr>
+<tr class="row-odd"><td><p>Embarrassment</p></td>
+</tr>
+<tr class="row-even"><td><p>Contempt</p></td>
+</tr>
+<tr class="row-odd"><td><p>Shame</p></td>
+</tr>
+</tbody>
+</table>
+</details>
+<details>
+<summary>The two-dimensional structrue of emotions (click to expand)</summary>
+<img src="https://github.com/Christina1281995/demo-repo/blob/main/two_d_structure_emotions.png?raw=true" width="70%">
+</details>
+<p>Sentiment on the other hand, refers to a mental attitude based on emotion. It follows that sentiment is used to convey the thoughts of the individual deriving from his/her emotion. Sentiment thereby is not confined to psychological dimensions, but is “highly organised”.</p>
+<br>
+</section>
+<section id="opinion-vs-sentiment">
+<h2>Opinion vs. Sentiment<a class="headerlink" href="#opinion-vs-sentiment" title="Permalink to this headline">#</a></h2>
+<p>Similar to the blurred lines between sentiment and emotions, there is also a need to clearly lay out the differences between opinions and sentiments. An opinion is a view, judgement or appraisal formed in the mind about a particular matter and it represents a person’s concrete view about something. Sentiment, on the other hand, marks an attitude, judgement or thought prompted by feeling. As such, a sentiment may be caused by an opinion. Opinions are underlying and broader concepts compared to sentiments. For example, we can have opinions beyond just positive and negative that are not sentiment-related at all<sup>[1]</sup>.</p>
+<p>As a foundation for any research on sentiments, there is a need for a clear definition of opinions, sentiments and how the two are connected. Liu proposes the following definitions:</p>
+<br>
+<blockquote>
+<div><p><strong>Opinion</strong> = (e, a, s, h, t), where e is the target entity, a is an aspect of the entity, s is the associated sentiment, h is the opinion holder, and t refers to the time.</p>
+<p><strong>Sentiment</strong> = (y, o, i), where y is the type of sentiment (domain dependent), o marks the orientation or valence (positive, negative, neutral), and i is the intensity of sentiment (represented in numerical terms).</p>
+</div></blockquote>
+<p>Building on this framework, several application fields for SA additionally require information on the <strong>geolocation</strong> of the opinion holder<sup>[6]</sup>. This is particularly true for the monitoring of socio-political events such as protests or election outcomes<sup>[6]</sup>. An <strong>extended six-tuple (e, a, s, h, t, p)</strong> is suggested in those cases, where p marks the place of the opinion.</p>
+</section>
+<section id="types-of-sentiment-analysis">
+<h2>Types of Sentiment Analysis<a class="headerlink" href="#types-of-sentiment-analysis" title="Permalink to this headline">#</a></h2>
+<p>Sentiment analysis is usually categorised by the level of analysis: document, sentence, and aspect-level.</p>
+<img align="right" src="https://github.com/Christina1281995/demo-repo/blob/main/levels.png?raw=true" width="35%">
+<!-- <img align="right" src="uploads/1c775c0accbc169ae283a579b61b8405/Picture2.png" width="35%"> -->
+<p><strong>Document Level</strong>: The aim at this level is to classify a whole opinion document, e.g. a product review, into a positive, negative, or neutral sentiment. This level of analysis makes the bold assumption that the entire document is concerned with a single entity.</p>
+<p><strong>Sentence Level</strong>: Similar to the document level, the aim is to determine whether a given sentence has a positive, negative or neutral sentiment.</p>
+<p><strong>Aspect Level</strong>: This is a more fine-grained level of analysis in which a sentiment classification is performed along with an extraction of the target of the opinion. In other words: “aspect-level analysis directly looks at an opinion and its target”<sup>[1]</sup>. The target can refer either to an entity (e.g. a camera) or any of an entity’s aspects (e.g. camera’s shutter speed). Most of today’s applications for sentiment analysis require an aspect-based analysis. An even more fine-grained analysis would include the identification of the reason for the opinion (e.g. “because I am small”) and a qualifier that indicates the limits to which the opinion applies (e.g. .</p>
+</section>
+<section id="challenges-in-sentiment-analysis">
+<h2>Challenges in Sentiment Analysis<a class="headerlink" href="#challenges-in-sentiment-analysis" title="Permalink to this headline">#</a></h2>
+<p><strong>Sarcasm</strong>: The act of writing something positive but meaning it negative or vice versa. The complexity and ambiguity make it very challenging to identify. There have been some approaches for sarcasm detection in bidirectional LSTM with SoftMax attention layer and CNN<sup>[1][2]</sup>.</p>
+<p><strong>Negation handling</strong>: Sometimes negation words are removed during pre-processing since they appear in the stop-words list, or they are ignored in the sentiment scoring process since they have a neutral sentiment value. Handling negation is not simply solved by reversing the polarity because sometimes they appear in sentences without influencing sentiment<sup>[2]</sup>.</p>
+<p><strong>Word sense disambiguation (WSD)</strong>: Words can have different meanings in different contexts<sup>[2][1]</sup>. Also, opinion words can be used in contexts that don’t actually have a sentiment<sup>[1]</sup>. Spam, fake reviews<sup>[2]</sup> or fake or deceptive opinions<sup>[1]</sup>.</p>
+<p><strong>Ignorance of pronouns</strong>: Pronouns are often excluded from the sentiment classification, but can offer critical hints about the relation of the entity in question<sup>[2]</sup>. Limited resource languages: Languages without large datasets … <sup>[2]</sup></p>
+<p><strong>Mixed Languages</strong>: SA of code-mixed data, especially in multilingual societies, sentences can contain vocabulary of several languages that make analysis extremely difficult<sup>[2]</sup>.</p>
+<p><strong>Absence of sentiment words</strong>: Many sentences that do have a sentiment don’t actually contain sentiment or opinion words. The sentiment is implied<sup>[1]</sup>. Multimodal analysis: Current research is addressing the issue of how to integrate multimodal data formats in sentiment analysis<sup>[6]</sup>.</p>
+<p><strong>Socio-Political Analyses</strong>: SA for product reviews is fairly “easy” to implement due to direct manner of opinion formulation, however, socio-political opinions are far more complex to analyse as they require background knowledge<sup>[1]</sup>.</p>
+</section>
+<section id="generic-sentiment-analysis-process">
+<h2>Generic Sentiment Analysis Process<a class="headerlink" href="#generic-sentiment-analysis-process" title="Permalink to this headline">#</a></h2>
+<p>The generic process of SA encompasses the broad steps of data acquisition, data pre-processing, sentiment classification, output and presentation<sup>[2]</sup>. The data pre-processing involves several sub-steps: tokenization, stop word removal, part of speech tagging, and lemmatization<sup>[2]</sup>.</p>
+<img src="https://github.com/Christina1281995/demo-repo/blob/main/generic_SA_process.png?raw=true" width="80%">
+<!--
+Feature extraction, meaning to extract valuable information that helps express sentiment. Punctuations\<sup>[2]</sup>, emoticons<sup>[2]</sup>, hashtags<sup>[2]</sup>, capitalisation<sup>[2]</sup>, TF-IDF<sup>[2][8]</sup>, PoS tagging<sup>[2]</sup>, Opinion words and phrases<sup>[2]</sup>, Negations<sup>[2]</sup>, Bag of words<sup>[11]</sup>, word-level and character-level n-grams<sup>[11]</sup>
+
+For deep learning, word embedding: Word2vec: consists of SkipGram and continuous bag of words CBOW. The skip-grams predict the words that are likely to surround a given token, whereas CBOW does the opposite as it predicts the word that is likely to occur given a certain context<sup>[9]</sup>.
+
+We can differentiate between several methodological approaches to SA. \[2\] Unsupervised Partitional algorithm – decomposes data into a set of disjoint clusters – k means Hierarchical algorithm Semi-Supervised Graph-Based approach, \[2\]\[6\] TwEmLab \[19\] → 3D similarity computation for graph edges between nodes -> Modified Adsorption MAD; Wrapper approach<sup>[6]</sup> Generative Approach.. <sup>[2]</sup>, Topic-based approach (LDA)<sup>[6]</sup> Multi-View Learning approach,<sup>[2]</sup> Supervised Rule-based, IF-THEN \[2\]\[6\] Common rule-based techniques TF-IDF \[7\] VADER \[18\] - VADER is a lexicon and rule-based sentiment analysis tool that is specifically attuned to the sentiments expressed in social media. linear approaches (SVM, ANN) \[2\]\[6\] probabilistic (NB, Max Entropy) \[2\] deep learning (DNN, CNN, RNN, other) \[2\]\[6\] and Transformers \[3\]
+-->
+<br>
+</section>
+<section id="sa-methods-overview">
+<h2>SA Methods Overview<a class="headerlink" href="#sa-methods-overview" title="Permalink to this headline">#</a></h2>
+<p>A vast range of methods have been used for sentiment analysis. A <strong>general overview</strong> is provided by Birjali et. al (2021):</p>
+<img src="https://github.com/Christina1281995/demo-repo/blob/main/methods1.png?raw=true" width="80%">
+<p>With a stronger focus on <strong>deep and machine learning methods</strong>, Yadav and Vishwakarma (2020) provide a more focussed overview:</p>
+<img src="https://github.com/Christina1281995/demo-repo/blob/main/methods2.png?raw=true">
+<br>
+<hr>
+<details><summary>References (click to expand)</summary>
+<p>[1] Liu, B. (2020). Sentiment analysis: Mining opinions, sentiments, and emotions. Cambridge university press.</p>
+<p>[2] Birjali, M., Kasri, M., &amp; Beni-Hssane, A. (2021). A comprehensive survey on sentiment analysis: Approaches, challenges and trends. Knowledge-Based Systems, 226, 107134.</p>
+<p>[3] Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., … &amp; Polosukhin, I. (2017). Attention is all you need. Advances in neural information processing systems, 30.</p>
+<p>[4] Peteres, M.E., Neumann, M., Lyyer, M., Gardner, M., Clark, C., Lee, K., Zettlemoyer, L., (2018). Deep Contextualized Word Representations.</p>
+<p>[5] Devlin, J., Chang, M. W., Lee, K., &amp; Toutanova, K. (2018). Bert: Pre-training of deep bidirectional transformers for language understanding. arXiv preprint arXiv:1810.04805.</p>
+<p>[6] Yue, L., Chen, W., Li, X., Zuo, W., &amp; Yin, M. (2019). A survey of sentiment analysis in social media. Knowledge and Information Systems, 60(2), 617-663.</p>
+<p>[7] Drus, Z., &amp; Khalid, H. (2019). Sentiment analysis in social media and its application: Systematic literature review. Procedia Computer Science, 161, 707-714.</p>
+<p>[8] Haddi, E., Liu, X., &amp; Shi, Y. (2013). The role of text pre-processing in sentiment analysis. Procedia computer science, 17, 26-32.</p>
+<p>[9] Dang, N. C., Moreno-García, M. N., &amp; De la Prieta, F. (2020). Sentiment analysis based on deep learning: A comparative study. Electronics, 9(3), 483.</p>
+<p>[11] Mozafari, M., Farahbakhsh, R., &amp; Crespi, N. (2019, December). A BERT-based transfer learning approach for hate speech detection in online social media. In International Conference on Complex Networks and Their Applications (pp. 928-940). Springer, Cham.</p>
+<p>[13] Sun, C., Huang, L., &amp; Qiu, X. (2019). Utilizing BERT for aspect-based sentiment analysis via constructing auxiliary sentence. arXiv preprint arXiv:1903.09588.</p>
+<p>[18] Elbagir, S., &amp; Yang, J. (2019, March). Twitter sentiment analysis using natural language toolkit and VADER sentiment. In Proceedings of the international multiconference of engineers and computer scientists (Vol. 122, p. 16).</p>
+<p>[19] Resch, B., Summa, A., Zeile, P., &amp; Strube, M. (2016). Citizen-centric urban planning through extracting emotion information from twitter in an interdisciplinary space-time-linguistics algorithm. Urban Planning, 1(2), 114-127.</p>
+<p>[20] Veličković, P., Cucurull, G., Casanova, A., Romero, A., Lio, P., &amp; Bengio, Y. (2017). Graph attention networks. arXiv preprint arXiv:1710.10903.</p>
+<p>[21] Yue, L., Chen, W., Li, X., Zuo, W. and Yin, M., 2019. A survey of sentiment analysis in social media. Knowledge and Information Systems, 60(2), pp.617-663.</p>
+</details> 
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="intro.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Overview</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="Lexicon_and_Machine_Learning.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Document-Level Sentiment Analysis with Lexicon and Machine Learning Methods</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By The Jupyter Book Community<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

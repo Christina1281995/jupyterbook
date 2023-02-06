@@ -1,0 +1,54 @@
+Traceback (most recent call last):
+  File "D:\Users\Christina\Programmes\envs\GRACE_GPU\lib\site-packages\jupyter_cache\executors\utils.py", line 51, in single_nb_execution
+    executenb(
+  File "D:\Users\Christina\Programmes\envs\GRACE_GPU\lib\site-packages\nbclient\client.py", line 1204, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "D:\Users\Christina\Programmes\envs\GRACE_GPU\lib\site-packages\nbclient\util.py", line 84, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "D:\Users\Christina\Programmes\envs\GRACE_GPU\lib\site-packages\nbclient\util.py", line 62, in just_run
+    return loop.run_until_complete(coro)
+  File "D:\Users\Christina\Programmes\envs\GRACE_GPU\lib\asyncio\base_events.py", line 647, in run_until_complete
+    return future.result()
+  File "D:\Users\Christina\Programmes\envs\GRACE_GPU\lib\site-packages\nbclient\client.py", line 663, in async_execute
+    await self.async_execute_cell(
+  File "D:\Users\Christina\Programmes\envs\GRACE_GPU\lib\site-packages\nbclient\client.py", line 965, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "D:\Users\Christina\Programmes\envs\GRACE_GPU\lib\site-packages\nbclient\client.py", line 862, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+# split into subsets of 20 tweets that will be saved on the go
+list_of_chunks = splitdataset(birmingham, 10)
+
+for subset in list_of_chunks:
+    convert_to_doc = annotate_aspects(df=subset, text_col='text', emotions_col='emotion')
+    #convert_to_doc = annotate_aspects(df=subset, text_col='Tweet_text', emotions_col='emotion')
+
+    # convert this chunk to a separate txt file to save progress up to here
+  
+    # keep track of how many tweets are going into the final reforatted document
+ 
+    with open(f"../Data/twemlab_goldstandards_annotated_reformatted/subsets/re-formatted_birmingham_subset_{i}.txt", mode = "w") as f:
+        for tweet in convert_to_doc:
+            for word in tweet:
+                f.write("%s\n" % word)
+            f.write("\n")
+
+    print(f"\n----------------\nSubset {i} was reformatted and saved into Data/twemlab_goldstandards_annotated_reformatted/subsets/re-formatted_birmingham_subset_{i}.txt\n----------------\n")
+
+    # add all to a list to be converted to a single output document
+    all_docs.append(convert_to_doc)
+    i += 1
+------------------
+
+[1;31m---------------------------------------------------------------------------[0m
+[1;31mNameError[0m                                 Traceback (most recent call last)
+Cell [1;32mIn[11], line 2[0m
+[0;32m      1[0m [38;5;66;03m# split into subsets of 20 tweets that will be saved on the go[39;00m
+[1;32m----> 2[0m list_of_chunks [38;5;241m=[39m splitdataset([43mbirmingham[49m, [38;5;241m10[39m)
+[0;32m      4[0m [38;5;28;01mfor[39;00m subset [38;5;129;01min[39;00m list_of_chunks:
+[0;32m      5[0m     convert_to_doc [38;5;241m=[39m annotate_aspects(df[38;5;241m=[39msubset, text_col[38;5;241m=[39m[38;5;124m'[39m[38;5;124mtext[39m[38;5;124m'[39m, emotions_col[38;5;241m=[39m[38;5;124m'[39m[38;5;124memotion[39m[38;5;124m'[39m)
+
+[1;31mNameError[0m: name 'birmingham' is not defined
+NameError: name 'birmingham' is not defined
+
