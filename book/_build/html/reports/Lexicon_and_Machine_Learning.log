@@ -1,0 +1,60 @@
+Traceback (most recent call last):
+  File "D:\Users\Christina\Programmes\envs\GRACE_GPU\lib\site-packages\jupyter_cache\executors\utils.py", line 51, in single_nb_execution
+    executenb(
+  File "D:\Users\Christina\Programmes\envs\GRACE_GPU\lib\site-packages\nbclient\client.py", line 1204, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "D:\Users\Christina\Programmes\envs\GRACE_GPU\lib\site-packages\nbclient\util.py", line 84, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "D:\Users\Christina\Programmes\envs\GRACE_GPU\lib\site-packages\nbclient\util.py", line 62, in just_run
+    return loop.run_until_complete(coro)
+  File "D:\Users\Christina\Programmes\envs\GRACE_GPU\lib\asyncio\base_events.py", line 647, in run_until_complete
+    return future.result()
+  File "D:\Users\Christina\Programmes\envs\GRACE_GPU\lib\site-packages\nbclient\client.py", line 663, in async_execute
+    await self.async_execute_cell(
+  File "D:\Users\Christina\Programmes\envs\GRACE_GPU\lib\site-packages\nbclient\client.py", line 965, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "D:\Users\Christina\Programmes\envs\GRACE_GPU\lib\site-packages\nbclient\client.py", line 862, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+# Experiment with your own "tweet", e.g. "looks great" or "having a bad day"
+# Uncomment lines below
+
+my_tweet = input('Test both naive bayes on own text! Enter something here:')
+p = naive_bayes_predict(my_tweet, logprior, loglikelihood)
+p1 = naive_bayes_predict(my_tweet, logprior1, loglikelihood1)
+
+print('The output from the SemEval trained Naive Bayes model is:', p)
+print('The output from the Twemlab trained Naive Bayes model is:', p1)
+------------------
+
+[1;31m---------------------------------------------------------------------------[0m
+[1;31mStdinNotImplementedError[0m                  Traceback (most recent call last)
+Cell [1;32mIn[15], line 4[0m
+[0;32m      1[0m [38;5;66;03m# Experiment with your own "tweet", e.g. "looks great" or "having a bad day"[39;00m
+[0;32m      2[0m [38;5;66;03m# Uncomment lines below[39;00m
+[1;32m----> 4[0m my_tweet [38;5;241m=[39m [38;5;28;43minput[39;49m[43m([49m[38;5;124;43m'[39;49m[38;5;124;43mTest both naive bayes on own text! Enter something here:[39;49m[38;5;124;43m'[39;49m[43m)[49m
+[0;32m      5[0m p [38;5;241m=[39m naive_bayes_predict(my_tweet, logprior, loglikelihood)
+[0;32m      6[0m p1 [38;5;241m=[39m naive_bayes_predict(my_tweet, logprior1, loglikelihood1)
+
+File [1;32mD:\Users\Christina\Programmes\envs\GRACE_GPU\lib\site-packages\ipykernel\kernelbase.py:1174[0m, in [0;36mKernel.raw_input[1;34m(self, prompt)[0m
+[0;32m   1167[0m [38;5;124;03m"""Forward raw_input to frontends[39;00m
+[0;32m   1168[0m 
+[0;32m   1169[0m [38;5;124;03mRaises[39;00m
+[0;32m   1170[0m [38;5;124;03m------[39;00m
+[0;32m   1171[0m [38;5;124;03mStdinNotImplementedError if active frontend doesn't support stdin.[39;00m
+[0;32m   1172[0m [38;5;124;03m"""[39;00m
+[0;32m   1173[0m [38;5;28;01mif[39;00m [38;5;129;01mnot[39;00m [38;5;28mself[39m[38;5;241m.[39m_allow_stdin:
+[1;32m-> 1174[0m     [38;5;28;01mraise[39;00m StdinNotImplementedError(
+[0;32m   1175[0m         [38;5;124m"[39m[38;5;124mraw_input was called, but this frontend does not support input requests.[39m[38;5;124m"[39m
+[0;32m   1176[0m     )
+[0;32m   1177[0m [38;5;28;01mreturn[39;00m [38;5;28mself[39m[38;5;241m.[39m_input_request(
+[0;32m   1178[0m     [38;5;28mstr[39m(prompt),
+[0;32m   1179[0m     [38;5;28mself[39m[38;5;241m.[39m_parent_ident[[38;5;124m"[39m[38;5;124mshell[39m[38;5;124m"[39m],
+[0;32m   1180[0m     [38;5;28mself[39m[38;5;241m.[39mget_parent([38;5;124m"[39m[38;5;124mshell[39m[38;5;124m"[39m),
+[0;32m   1181[0m     password[38;5;241m=[39m[38;5;28;01mFalse[39;00m,
+[0;32m   1182[0m )
+
+[1;31mStdinNotImplementedError[0m: raw_input was called, but this frontend does not support input requests.
+StdinNotImplementedError: raw_input was called, but this frontend does not support input requests.
+

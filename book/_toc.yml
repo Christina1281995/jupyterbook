@@ -1,0 +1,16 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: intro
+chapters:
+- file: Introduction_to_SA
+- file: Lexicon_and_Machine_Learning
+- file: Deep_Learning
+- file: GRACE_trained_for_ABSA_on_twitter_data
+- file: GRACE_trained_for_ABEA_on_twitter_data
+- file: Twemlab_Aspect_Term_Annotation
+- file: ate_asc_modeling_local_bert_file
+- file: Datasets
+
+

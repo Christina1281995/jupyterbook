@@ -1,0 +1,1472 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Annotating Twemlab Goldstandard Files to Include Aspect Term Labels &#8212; Sentiment Analysis</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Aspect-Based Emotion Analysis on Twitter Data" href="GRACE_trained_for_ABEA_on_twitter_data.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo1.jpg" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Sentiment Analysis</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Overview
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="Introduction_to_SA.html">
+   Introduction to Sentiment Analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Lexicon_and_Machine_Learning.html">
+   Document-Level Sentiment Analysis with Lexicon and Machine Learning Methods
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Deep_Learning.html">
+   Document Level Sentiment Analysis with Deep Learning Models
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="GRACE_trained_for_ABSA_on_twitter_data.html">
+   Aspect-Based Sentiment Analysis on Twitter Data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="GRACE_trained_for_ABEA_on_twitter_data.html">
+   Aspect-Based Emotion Analysis on Twitter Data
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Annotating Twemlab Goldstandard Files to Include Aspect Term Labels
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/docs/Twemlab_Aspect_Term_Annotation.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/executablebooks/jupyter-book"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FTwemlab_Aspect_Term_Annotation.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/Twemlab_Aspect_Term_Annotation.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#required-fromat">
+   Required Fromat
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#imports">
+   Imports
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-both-goldstandard-files">
+   Load Both Goldstandard Files
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#birmingham">
+     Birmingham
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#boston">
+     Boston
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#helper-functions-for-aspect-term-labelling-and-reformatting">
+   Helper Functions for Aspect Term Labelling and Reformatting
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#annotate">
+   Annotate
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#save-all-subsets-together-as-new-txt-file">
+   Save all subsets together as new txt file
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#merge-datasets-into-single-files">
+   Merge Datasets into Single Files
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Annotating Twemlab Goldstandard Files to Include Aspect Term Labels</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#required-fromat">
+   Required Fromat
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#imports">
+   Imports
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-both-goldstandard-files">
+   Load Both Goldstandard Files
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#birmingham">
+     Birmingham
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#boston">
+     Boston
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#helper-functions-for-aspect-term-labelling-and-reformatting">
+   Helper Functions for Aspect Term Labelling and Reformatting
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#annotate">
+   Annotate
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#save-all-subsets-together-as-new-txt-file">
+   Save all subsets together as new txt file
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#merge-datasets-into-single-files">
+   Merge Datasets into Single Files
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="annotating-twemlab-goldstandard-files-to-include-aspect-term-labels">
+<h1>Annotating Twemlab Goldstandard Files to Include Aspect Term Labels<a class="headerlink" href="#annotating-twemlab-goldstandard-files-to-include-aspect-term-labels" title="Permalink to this headline">#</a></h1>
+<p>The twemlab goldstandard files are already labelled according to emotions. In this notebook they are consolidated into the four basic emotions:</p>
+<ul class="simple">
+<li><p>happiness (includes love and beauty) 🙂</p></li>
+<li><p>anger (includes disgust) 😠</p></li>
+<li><p>sadness 😞</p></li>
+<li><p>fear 😨</p></li>
+</ul>
+<p>Aside from the consolidation of the emotion labels, this notebook uses helper functions to label each tweet according to its emotion-related aspect terms. The function splits the datasets into chunks of 100 tweets to save each annotated chunk during the process (for extra caution that the annotations are saved). Each tweet is shown to the user along with the labelled emotion. The user can enter how many aspect terms there are and then enters the aspect terms. The function then automatically identifies the beginning and inside of aspect terms and labels them according to the required input format of the GRACE model developed by <a class="reference external" href="https://arxiv.org/abs/2009.10557">Luo et al. (2020)</a>.</p>
+<p>For clarity and assistance during the labelling, “aspect term” need to be clearly defined.</p>
+<ul class="simple">
+<li><p>asepcts are regarded as a “general” aspect, which collectively refers to an entity and its aspects as “aspect” (<a class="reference external" href="https://arxiv.org/pdf/2203.01054.pdf">Zhang et al., 2022</a>)</p></li>
+<li><p>aspect term a is the opinion target which appears in the given text, e.g., “pizza” in the sentence “The pizza is delicious.” When the target is implicitly expressed (e.g., “It is overpriced!”), we can denote the aspect term as a special one named “null” (<a class="reference external" href="https://arxiv.org/pdf/2203.01054.pdf">Zhang et al., 2022</a>)</p></li>
+<li><p>here only aspects are labelled that are related to the given emotion</p></li>
+</ul>
+<section id="required-fromat">
+<h2>Required Fromat<a class="headerlink" href="#required-fromat" title="Permalink to this headline">#</a></h2>
+<p>For Training Step 1 ‘twitter_1_train.txt’ file required:</p>
+<p>Reformat the two dataframes ‘twemlab_birmingham’ and ‘twemlab_boston’ to match the format below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>-DOCSTART-
+
+How - - O O O
+can - - O O O
+someone - - O O O
+so - - O O O
+incompetent - - O O O
+like - - O O O
+Maxine - - B_AP NEGATIVE B_AP+NEGATIVE
+Waters - - I_AP NEGATIVE I_AP+NEGATIVE
+stay - - O O O
+in - - O O O
+office - - O O O
+for - - O O O
+over - - O O O
+20 - - O O O
+years - - O O O
+? - - O O O
+#LAFail - - O O O
+
+@HabibaAlshanti - - B_AP POSITIVE B_AP+POSITIVE
+.. - - O O O
+Yes - - O O O
+I - - O O O
+want - - O O O
+that - - O O O
+:p - - O O O
+
+
+</pre></div>
+</div>
+</section>
+<section id="imports">
+<h2>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">import</span> <span class="nn">urllib.request</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>                                                    <span class="c1"># data handling</span>
+<span class="kn">import</span> <span class="nn">xml.etree.cElementTree</span> <span class="k">as</span> <span class="nn">ET</span> 
+<span class="kn">import</span> <span class="nn">re</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="load-both-goldstandard-files">
+<h2>Load Both Goldstandard Files<a class="headerlink" href="#load-both-goldstandard-files" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>Birmingham (994 tweets)</p></li>
+<li><p>Boston (631 tweets)</p></li>
+</ul>
+<p>Load into dataframe –&gt; match emotion labels (happiness, anger, sadness, fear) –&gt; keep only id, text, emotion columns</p>
+<section id="birmingham">
+<h3>Birmingham<a class="headerlink" href="#birmingham" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load TwEmLab Goldstandard for Birmingham</span>
+<span class="n">tree1</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">&#39;../Data/twemlab_goldstandards_original/birmingham_labels.xml&#39;</span><span class="p">)</span>
+<span class="n">root1</span> <span class="o">=</span> <span class="n">tree1</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+
+<span class="c1"># check contents</span>
+<span class="c1">#root1[0][1].text</span>
+
+<span class="c1"># create dataframe from xml file</span>
+<span class="n">data1</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">root1</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;Tweet&#39;</span><span class="p">):</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">tweet</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;ID&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="n">tweet</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Label&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+    <span class="n">data1</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="nb">id</span><span class="p">,</span> <span class="n">label</span><span class="p">))</span>
+
+<span class="n">df1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data1</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span><span class="s1">&#39;label&#39;</span><span class="p">])</span>
+ <span class="c1"># df1.head()</span>
+    
+<span class="c1"># Load TwEmLab Birmingham Tweets</span>
+<span class="n">tree2</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">&#39;../Data/twemlab_goldstandards_original/birmingham_tweets.xml&#39;</span><span class="p">)</span>
+<span class="n">root2</span> <span class="o">=</span> <span class="n">tree2</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+
+<span class="c1"># check contents</span>
+<span class="c1"># root2[0][1].text</span>
+
+<span class="c1"># create dataframe from xml file</span>
+<span class="n">data2</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">root2</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;Tweet&#39;</span><span class="p">):</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">tweet</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;ID&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">tweet</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+    <span class="n">goldstandard</span> <span class="o">=</span> <span class="n">tweet</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;goldstandard&quot;</span><span class="p">)</span>
+    <span class="n">data2</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="nb">id</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">goldstandard</span><span class="p">))</span>
+
+<span class="n">df2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data2</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span><span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="s1">&#39;goldstandard&#39;</span><span class="p">])</span>
+<span class="c1"># df2.head()</span>
+
+ <span class="c1"># merge the two separate dataframes based on id columns</span>
+<span class="n">merge</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df1</span><span class="p">,</span> <span class="n">df2</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
+
+<span class="c1"># keep only the tweets that are part of the goldstandard</span>
+<span class="n">twemlab</span> <span class="o">=</span> <span class="n">merge</span><span class="p">[</span><span class="n">merge</span><span class="p">[</span><span class="s1">&#39;goldstandard&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;yes&#39;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Number of tweets in goldstandard: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">twemlab</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">emotions</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c1"># assign emotion label (happiness, anger, sadness, fear)</span>
+<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">twemlab</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;beauty&#39;</span> <span class="ow">or</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;happiness&#39;</span><span class="p">:</span>
+        <span class="n">emotions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;happiness&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;anger/disgust&#39;</span><span class="p">:</span>
+        <span class="n">emotions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;anger&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;sadness&#39;</span><span class="p">:</span>
+        <span class="n">emotions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;sadness&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;fear&#39;</span><span class="p">:</span>
+        <span class="n">emotions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;fear&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span> 
+        <span class="n">emotions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
+        
+<span class="n">twemlab</span><span class="p">[</span><span class="s1">&#39;emotion&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">emotions</span>
+
+<span class="n">twemlab_birmingham</span> <span class="o">=</span> <span class="n">twemlab</span><span class="p">[[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span><span class="s1">&#39;text&#39;</span><span class="p">,</span><span class="s1">&#39;emotion&#39;</span><span class="p">]]</span>
+
+<span class="c1"># check dataset</span>
+<span class="n">twemlab_birmingham</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of tweets in goldstandard: 994
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>text</th>
+      <th>emotion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>200000000000000001</td>
+      <td>who says summer is over; beautiful run in Edin...</td>
+      <td>happiness</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>200000000000000002</td>
+      <td>Eid prayer in small heath park 7:30am sharp to...</td>
+      <td>none</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>200000000000000003</td>
+      <td>did the last one at Summerfield Park</td>
+      <td>none</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>200000000000000004</td>
+      <td>that was Summerfield Park</td>
+      <td>none</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>200000000000000005</td>
+      <td>FREE led cycle ride from Edgbaston Reservoir, ...</td>
+      <td>none</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>200000000000000006</td>
+      <td>The unnamed woman, in her 30s, had been on the...</td>
+      <td>sadness</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>200000000000000007</td>
+      <td>Attempt theft from Motor Vehicle - Rookery Par...</td>
+      <td>anger</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>200000000000000008</td>
+      <td>Heather and webs... #heather #cobwebs #nature ...</td>
+      <td>happiness</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>200000000000000009</td>
+      <td>The unnamed woman, in her 30s, had been on the...</td>
+      <td>sadness</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>200000000000000010</td>
+      <td>Birmingham: Lianne Harris - mini Pype Hayes Pa...</td>
+      <td>sadness</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>200000000000000011</td>
+      <td>Pop-Up Storytelling, 6 Sep 2015: 6 Sep 2015 - ...</td>
+      <td>happiness</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>200000000000000012</td>
+      <td>sandwellcouncil   Kings Heath Park, Lickey Hil...</td>
+      <td>fear</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>200000000000000013</td>
+      <td>The calm before the storm as we look to round ...</td>
+      <td>happiness</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>200000000000000014</td>
+      <td>Cotteridge park in the dark is dark.</td>
+      <td>fear</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>200000000000000015</td>
+      <td>Brill day exploring #prehistory w yr 3s  &amp; #br...</td>
+      <td>happiness</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>200000000000000016</td>
+      <td>Cannon Hill Park zinging with bats over the la...</td>
+      <td>happiness</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>200000000000000017</td>
+      <td>Vulnerable female found safe in Highbury park ...</td>
+      <td>happiness</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>200000000000000018</td>
+      <td>#Watercolour #painting from a photo of Sutton ...</td>
+      <td>happiness</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>200000000000000019</td>
+      <td>Good luck all those competing in the ERRA Nati...</td>
+      <td>happiness</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>200000000000000020</td>
+      <td>Shout out to all in National Road Relays actio...</td>
+      <td>happiness</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="boston">
+<h3>Boston<a class="headerlink" href="#boston" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">readfile</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../Data/twemlab_goldstandards_original/boston_goldstandard.csv&#39;</span><span class="p">)</span>
+<span class="n">twemlab_boston</span> <span class="o">=</span> <span class="n">readfile</span><span class="p">[[</span><span class="s1">&#39;Tweet_ID&#39;</span><span class="p">,</span> <span class="s1">&#39;Tweet_timestamp&#39;</span><span class="p">,</span> <span class="s1">&#39;Tweet_text&#39;</span><span class="p">,</span> <span class="s1">&#39;Tweet_goldstandard_attribute&#39;</span><span class="p">,</span> <span class="s1">&#39;Tweet_longitude&#39;</span><span class="p">,</span><span class="s1">&#39;Tweet_latitude&#39;</span><span class="p">,</span><span class="s1">&#39;Tweet_timestamp&#39;</span><span class="p">,</span><span class="s1">&#39;Emotion&#39;</span><span class="p">]]</span>
+<span class="c1"># use only rows that have text in them</span>
+<span class="n">twemlab_boston</span> <span class="o">=</span> <span class="n">twemlab_boston</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">631</span><span class="p">]</span>
+<span class="n">twemlab_boston</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\Christina\AppData\Local\Temp\ipykernel_6284\1233096741.py:1: DtypeWarning: Columns (2,4,5,8,19,30) have mixed types. Specify dtype option on import or set low_memory=False.
+  readfile = pd.read_csv(&#39;../Data/twemlab_goldstandards_original/boston_goldstandard.csv&#39;)
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Tweet_ID</th>
+      <th>Tweet_timestamp</th>
+      <th>Tweet_text</th>
+      <th>Tweet_goldstandard_attribute</th>
+      <th>Tweet_longitude</th>
+      <th>Tweet_latitude</th>
+      <th>Tweet_timestamp</th>
+      <th>Emotion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3.232433e+17</td>
+      <td>14/04/2013 01:16</td>
+      <td>yeah, well if ur with family all the time I se...</td>
+      <td>yes</td>
+      <td>-70.881896</td>
+      <td>42.298795</td>
+      <td>14/04/2013 01:16</td>
+      <td>anger/disgust</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3.210770e+17</td>
+      <td>08/04/2013 01:48</td>
+      <td>He kiss that ass #i #aint #wit #that #shit !</td>
+      <td>yes</td>
+      <td>-71.075771</td>
+      <td>42.319011</td>
+      <td>08/04/2013 01:48</td>
+      <td>anger/disgust</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3.211332e+17</td>
+      <td>08/04/2013 05:31</td>
+      <td>Guy next to me on the flight has those shoes t...</td>
+      <td>yes</td>
+      <td>-71.076238</td>
+      <td>42.350379</td>
+      <td>08/04/2013 05:31</td>
+      <td>anger/disgust</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3.228748e+17</td>
+      <td>13/04/2013 00:51</td>
+      <td>never!!!</td>
+      <td>yes</td>
+      <td>-71.044951</td>
+      <td>42.334131</td>
+      <td>13/04/2013 00:51</td>
+      <td>anger/disgust</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>3.230403e+17</td>
+      <td>13/04/2013 11:49</td>
+      <td>I'm gettin really sick &amp; tired of stepping in ...</td>
+      <td>yes</td>
+      <td>-71.142320</td>
+      <td>42.346204</td>
+      <td>13/04/2013 11:49</td>
+      <td>anger/disgust</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">twemlab_birmingham</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>994
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">emotions</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c1"># assign emotion label (happiness, anger, sadness, fear)</span>
+<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">twemlab_boston</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;Emotion&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;beauty&#39;</span> <span class="ow">or</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;Emotion&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;happiness&#39;</span><span class="p">:</span>
+        <span class="n">emotions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;happiness&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;Emotion&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;anger/disgust&#39;</span><span class="p">:</span>
+        <span class="n">emotions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;anger&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;Emotion&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;sadness&#39;</span><span class="p">:</span>
+        <span class="n">emotions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;sadness&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;Emotion&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;fear&#39;</span><span class="p">:</span>
+        <span class="n">emotions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;fear&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span> 
+        <span class="n">emotions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
+        
+<span class="n">twemlab_boston</span><span class="p">[</span><span class="s1">&#39;emotion&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">emotions</span>
+
+<span class="n">twemlab_boston</span> <span class="o">=</span> <span class="n">twemlab_boston</span><span class="p">[[</span><span class="s1">&#39;Tweet_ID&#39;</span><span class="p">,</span><span class="s1">&#39;Tweet_text&#39;</span><span class="p">,</span><span class="s1">&#39;emotion&#39;</span><span class="p">]]</span>
+
+<span class="c1"># check dataset</span>
+<span class="n">twemlab_boston</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Tweet_ID</th>
+      <th>Tweet_text</th>
+      <th>emotion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3.232433e+17</td>
+      <td>yeah, well if ur with family all the time I se...</td>
+      <td>anger</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3.210770e+17</td>
+      <td>He kiss that ass #i #aint #wit #that #shit !</td>
+      <td>anger</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3.211332e+17</td>
+      <td>Guy next to me on the flight has those shoes t...</td>
+      <td>anger</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3.228748e+17</td>
+      <td>never!!!</td>
+      <td>anger</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>3.230403e+17</td>
+      <td>I'm gettin really sick &amp; tired of stepping in ...</td>
+      <td>anger</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>3.245137e+17</td>
+      <td>Hey can you stop making out in the seat in fro...</td>
+      <td>anger</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>3.252593e+17</td>
+      <td>That just pissed me off -_-</td>
+      <td>anger</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>3.213107e+17</td>
+      <td>All of #boston is laying mulch today. The enti...</td>
+      <td>anger</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>3.248940e+17</td>
+      <td>â€œ: Obama is really not thinking at the momen...</td>
+      <td>anger</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>3.259976e+17</td>
+      <td>Tan bruto (/.-) RT ":  noooooooooooooooooooooo...</td>
+      <td>anger</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>3.212604e+17</td>
+      <td>The fact there is an elderly lady and pregnant...</td>
+      <td>anger</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>3.213831e+17</td>
+      <td>How do you feel? I just shit on your life? Ha</td>
+      <td>anger</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>3.210718e+17</td>
+      <td>The fact my mom is being an ass and pointing o...</td>
+      <td>anger</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>3.217203e+17</td>
+      <td>OMG biggest waste of my time.</td>
+      <td>anger</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>3.261652e+17</td>
+      <td>Shit man! Wtf did I do this time for you to act?</td>
+      <td>anger</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>3.234615e+17</td>
+      <td>I can't stand the homework anymore , semester ...</td>
+      <td>anger</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>3.210783e+17</td>
+      <td>S/o to Pujols, fighting through that injury to...</td>
+      <td>anger</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>3.242897e+17</td>
+      <td>Rtâ€œ: Sick of people claiming they woke up in...</td>
+      <td>anger</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>3.248830e+17</td>
+      <td>We wonder why our world marinates in fucking d...</td>
+      <td>anger</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>3.252356e+17</td>
+      <td>are you shitting me right now. Wtf</td>
+      <td>anger</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+</section>
+<section id="helper-functions-for-aspect-term-labelling-and-reformatting">
+<h2>Helper Functions for Aspect Term Labelling and Reformatting<a class="headerlink" href="#helper-functions-for-aspect-term-labelling-and-reformatting" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+
+<span class="k">def</span> <span class="nf">splitdataset</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">chunksize</span><span class="p">):</span>
+
+  <span class="c1"># split up the twemlab goldstandard texts into 100 tweet chunks</span>
+  <span class="n">nr_of_iterations</span> <span class="o">=</span> <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="o">/</span> <span class="n">chunksize</span><span class="p">))</span>
+
+  <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">nr_of_iterations</span><span class="si">}</span><span class="s1"> subsets created from the whole dataframe.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+  <span class="n">list_of_chunks</span> <span class="o">=</span> <span class="p">[]</span>
+
+  <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nr_of_iterations</span><span class="p">):</span>
+    <span class="n">cur_index</span> <span class="o">=</span> <span class="n">a</span><span class="o">*</span><span class="n">chunksize</span>
+    <span class="k">if</span> <span class="n">a</span> <span class="o">==</span> <span class="n">nr_of_iterations</span><span class="p">:</span>
+      <span class="n">chunk_of_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">cur_index</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)]</span>
+
+    <span class="k">else</span><span class="p">:</span> 
+      <span class="n">chunk_of_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">cur_index</span><span class="p">:</span> <span class="n">cur_index</span><span class="o">+</span><span class="n">chunksize</span><span class="p">]</span>
+
+    <span class="n">list_of_chunks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chunk_of_df</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">list_of_chunks</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">annotate_aspects</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">text_col</span><span class="p">,</span> <span class="n">emotions_col</span><span class="p">):</span>
+
+  <span class="c1"># text column to list</span>
+  <span class="n">text_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">text_col</span><span class="p">])</span>
+  <span class="n">emotion_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">emotions_col</span><span class="p">])</span>
+
+  <span class="c1"># addition to words that aren&#39;t aspect terms</span>
+  <span class="n">addition_no_ate</span> <span class="o">=</span> <span class="s1">&#39; - - O O O&#39;</span>
+
+  <span class="c1"># function to use for beginning of aspect terms</span>
+  <span class="k">def</span> <span class="nf">beginning_ate</span><span class="p">(</span><span class="n">emotion</span><span class="p">):</span>
+    <span class="n">addition_beginning_ate</span> <span class="o">=</span> <span class="s1">&#39; - - B_AP &#39;</span> <span class="o">+</span> <span class="n">emotion</span> <span class="o">+</span> <span class="s1">&#39; B_AP+&#39;</span> <span class="o">+</span> <span class="n">emotion</span>
+    <span class="k">return</span> <span class="n">addition_beginning_ate</span>
+
+  <span class="c1"># function to use for inside aspect terms</span>
+  <span class="k">def</span> <span class="nf">inside_ate</span><span class="p">(</span><span class="n">emotion</span><span class="p">):</span>
+    <span class="n">inside_beginning_ate</span> <span class="o">=</span> <span class="s1">&#39; - - I_AP &#39;</span> <span class="o">+</span> <span class="n">emotion</span> <span class="o">+</span> <span class="s1">&#39; I_AP+&#39;</span> <span class="o">+</span> <span class="n">emotion</span>
+    <span class="k">return</span> <span class="n">inside_beginning_ate</span>
+
+  <span class="c1"># list to store all reformatted tweets</span>
+  <span class="n">convert_to_doc</span> <span class="o">=</span> <span class="p">[]</span>
+
+  <span class="c1"># logic to iteratively work in chunks</span>
+  <span class="n">counter_overall</span> <span class="o">=</span> <span class="mi">0</span>
+
+  <span class="c1"># iteratively apply re-formatting and save to new list</span>
+  <span class="k">while</span> <span class="n">counter_overall</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">text_list</span><span class="p">):</span>
+
+    <span class="c1"># print a line to separate </span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---------------------------------------&quot;</span><span class="p">)</span>    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Tweet nr:  </span><span class="si">{</span><span class="n">counter_overall</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="n">words</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[#\w\-]+|[.,!?():;</span><span class="se">\&quot;</span><span class="s2">\&#39;]&quot;</span><span class="p">,</span> <span class="n">text_list</span><span class="p">[</span><span class="n">counter_overall</span><span class="p">])</span>
+     
+    <span class="c1"># show me the emotion</span>
+    <span class="c1"># print(f&quot;Emotion:   {emotion_list[counter_overall]}&quot;)</span>
+    
+    <span class="c1"># show me the text and let me determine how many aspects there are</span>
+    <span class="n">how_many_aspect_words</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Emotion:   </span><span class="si">{</span><span class="n">emotion_list</span><span class="p">[</span><span class="n">counter_overall</span><span class="p">]</span><span class="si">}</span><span class="s2"> ------------ Tweet:     </span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">)</span><span class="si">}</span><span class="s2"> ------------ How many aspect words?&quot;</span><span class="p">)</span>
+    <span class="c1"># check that input is correct, otherwise prompt again until input is digit</span>
+    <span class="k">while</span> <span class="n">how_many_aspect_words</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+      <span class="n">ask_again</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Emotion:   </span><span class="si">{</span><span class="n">emotion_list</span><span class="p">[</span><span class="n">counter_overall</span><span class="p">]</span><span class="si">}</span><span class="s2"> ------------ Tweet:     </span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">)</span><span class="si">}</span><span class="s2"> ------------ How many aspect words? Enter a number:&quot;</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">ask_again</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+        <span class="n">how_many_aspect_words</span> <span class="o">=</span> <span class="n">ask_again</span>
+    
+    <span class="c1">#list to collect aspect terms</span>
+    <span class="n">aspect_terms</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># list for entire reformatted tweet</span>
+    <span class="n">new_tweet</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># for each aspect phrase, enter the word to add it to aspect terms list</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">how_many_aspect_words</span><span class="p">)):</span>
+
+      <span class="n">get_word</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Emotion:   </span><span class="si">{</span><span class="n">emotion_list</span><span class="p">[</span><span class="n">counter_overall</span><span class="p">]</span><span class="si">}</span><span class="s2"> ------------ Tweet:     </span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">)</span><span class="si">}</span><span class="s2"> ------------ Aspect word </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+      <span class="n">aspect_terms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_word</span><span class="p">)</span>
+      <span class="c1">#print(aspect_terms)</span>
+
+    <span class="c1"># for each word that has been added to the list, when it is found add spectial annotions</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">)):</span>
+      <span class="c1"># check if the word is in the aspect terms list</span>
+      <span class="k">if</span> <span class="n">words</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="ow">in</span> <span class="n">aspect_terms</span><span class="p">:</span>
+        <span class="c1"># if its the first word of the tweet, no need to check if there&#39;s an aspect word before</span>
+        <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+          <span class="n">add_to_doc</span> <span class="o">=</span> <span class="n">words</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">beginning_ate</span><span class="p">(</span><span class="n">emotion_list</span><span class="p">[</span><span class="n">counter_overall</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">j</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+          <span class="c1"># if there&#39;s an aspect term before this word</span>
+          <span class="k">if</span> <span class="n">words</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">aspect_terms</span><span class="p">:</span>
+            <span class="n">add_to_doc</span> <span class="o">=</span> <span class="n">words</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">inside_ate</span><span class="p">(</span><span class="n">emotion_list</span><span class="p">[</span><span class="n">counter_overall</span><span class="p">])</span>
+          <span class="k">else</span><span class="p">:</span>
+            <span class="n">add_to_doc</span> <span class="o">=</span> <span class="n">words</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">beginning_ate</span><span class="p">(</span><span class="n">emotion_list</span><span class="p">[</span><span class="n">counter_overall</span><span class="p">])</span>
+
+      <span class="k">elif</span> <span class="n">j</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">aspect_terms</span><span class="p">:</span>
+        <span class="n">add_to_doc</span> <span class="o">=</span> <span class="n">words</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">addition_no_ate</span>
+
+      <span class="n">new_tweet</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">add_to_doc</span><span class="p">)</span>
+    
+    <span class="c1">#print(new_tweet)</span>
+    <span class="n">save</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">new_tweet</span><span class="si">}</span><span class="s1"> ------------ Save last reformatted text? Enter/n:&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">save</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+      <span class="n">convert_to_doc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_tweet</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">save</span> <span class="o">==</span> <span class="s1">&#39;n&#39;</span><span class="p">:</span>
+      <span class="c1"># set counter back and don&#39;t do anything with the tweet</span>
+      <span class="n">counter_overall</span> <span class="o">-=</span> <span class="mi">1</span>
+      <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;counter overall set back to : </span><span class="si">{</span><span class="n">counter_overall</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    
+    <span class="n">counter_overall</span> <span class="o">+=</span> <span class="mi">1</span>
+
+  <span class="k">return</span> <span class="n">convert_to_doc</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="annotate">
+<h2>Annotate<a class="headerlink" href="#annotate" title="Permalink to this headline">#</a></h2>
+<p>Subdivide the datasets into subsets and iterate over them to identify asepct terms, reformat and store in variable for later conversion into a .txt file.</p>
+<p>This step requires iteratively uncommenting the individual subsets below to annotate them one after the other</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># choose and keep track of how many already annotated</span>
+<span class="c1">#testing = twemlab_birmingham[80:90]</span>
+<span class="c1">#print(boston_100.loc[99])</span>
+
+<span class="n">all_docs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># split whole dataframe into subsets of 100 tweets each</span>
+<span class="c1"># twemlab_birmingham</span>
+<span class="c1"># twemlab_boston</span>
+
+<span class="c1"># choose and keep track of how many already annotated</span>
+<span class="c1">#boston = twemlab_boston[0:100]             # done</span>
+<span class="c1">#boston = twemlab_boston[100:200]           # done</span>
+<span class="c1">#boston = twemlab_boston[200:300]           # done</span>
+<span class="c1">#boston = twemlab_boston[300:400]           # done</span>
+<span class="c1">#boston = twemlab_boston[400:500]           # done</span>
+<span class="c1">#boston = twemlab_boston[500:600]           # done</span>
+<span class="c1">#boston = twemlab_boston[600:]              # done</span>
+
+<span class="c1"># birmingham</span>
+<span class="c1">#birmingham = twemlab_birmingham[0:100]      # done</span>
+<span class="c1">#birmingham = twemlab_birmingham[100:200]    # done</span>
+<span class="c1">#birmingham = twemlab_birmingham[200:300]    # done</span>
+<span class="c1">#birmingham = twemlab_birmingham[300:400]    # done</span>
+<span class="c1">#birmingham = twemlab_birmingham[400:500]    # done</span>
+
+<span class="c1">#birmingham = twemlab_birmingham[500:600]    # done</span>
+<span class="c1">#birmingham = twemlab_birmingham[600:700]    # done</span>
+<span class="c1">#birmingham = twemlab_birmingham[700:800]    # done</span>
+<span class="c1">#birmingham = twemlab_birmingham[800:900]    # done</span>
+<span class="c1">#birmingham = twemlab_birmingham[900:]       # done</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">all_docs</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0
+0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># split into subsets of 20 tweets that will be saved on the go</span>
+<span class="n">list_of_chunks</span> <span class="o">=</span> <span class="n">splitdataset</span><span class="p">(</span><span class="n">birmingham</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">subset</span> <span class="ow">in</span> <span class="n">list_of_chunks</span><span class="p">:</span>
+    <span class="n">convert_to_doc</span> <span class="o">=</span> <span class="n">annotate_aspects</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">subset</span><span class="p">,</span> <span class="n">text_col</span><span class="o">=</span><span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="n">emotions_col</span><span class="o">=</span><span class="s1">&#39;emotion&#39;</span><span class="p">)</span>
+    <span class="c1">#convert_to_doc = annotate_aspects(df=subset, text_col=&#39;Tweet_text&#39;, emotions_col=&#39;emotion&#39;)</span>
+
+    <span class="c1"># convert this chunk to a separate txt file to save progress up to here</span>
+  
+    <span class="c1"># keep track of how many tweets are going into the final reforatted document</span>
+ 
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;../Data/twemlab_goldstandards_annotated_reformatted/subsets/re-formatted_birmingham_subset_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">.txt&quot;</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">convert_to_doc</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">tweet</span><span class="p">:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">word</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">----------------</span><span class="se">\n</span><span class="s2">Subset </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> was reformatted and saved into Data/twemlab_goldstandards_annotated_reformatted/subsets/re-formatted_birmingham_subset_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">.txt</span><span class="se">\n</span><span class="s2">----------------</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># add all to a list to be converted to a single output document</span>
+    <span class="n">all_docs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">convert_to_doc</span><span class="p">)</span>
+    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">11</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># split into subsets of 20 tweets that will be saved on the go</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">list_of_chunks</span> <span class="o">=</span> <span class="n">splitdataset</span><span class="p">(</span><span class="n">birmingham</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="k">for</span> <span class="n">subset</span> <span class="ow">in</span> <span class="n">list_of_chunks</span><span class="p">:</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span>     <span class="n">convert_to_doc</span> <span class="o">=</span> <span class="n">annotate_aspects</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">subset</span><span class="p">,</span> <span class="n">text_col</span><span class="o">=</span><span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="n">emotions_col</span><span class="o">=</span><span class="s1">&#39;emotion&#39;</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;birmingham&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="save-all-subsets-together-as-new-txt-file">
+<h2>Save all subsets together as new txt file<a class="headerlink" href="#save-all-subsets-together-as-new-txt-file" title="Permalink to this headline">#</a></h2>
+<p>This step ONLY works if the variable “all_docs” from the previous step contains the labelled data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ALL TWEETS</span>
+<span class="n">tracker</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="c1">#with open(&quot;../Data/twemlab_goldstandards_annotated_reformatted/birmingham_pt1_annotated_reformatted.txt&quot;, mode = &quot;w&quot;) as f:</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;../Data/twemlab_goldstandards_annotated_reformatted/birmingham_pt2_annotated_reformatted.txt&quot;</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="c1">#with open(&quot;../Data/twemlab_goldstandards_annotated_reformatted/boston_annotated_reformatted.txt&quot;, mode = &quot;w&quot;) as f:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;-DOCSTART-</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">all_docs</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">:</span>
+            <span class="c1">#every 10th tweet</span>
+            <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">tweet</span><span class="p">:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">word</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">tracker</span> <span class="o">+=</span> <span class="mi">1</span>
+            
+<span class="c1">#print(f&quot;{tracker} tweets were reformatted into Data/twemlab_goldstandards_annotated_reformatted/birmingham_pt1_annotated_reformatted.txt&quot;)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tracker</span><span class="si">}</span><span class="s2"> tweets were reformatted into Data/twemlab_goldstandards_annotated_reformatted/birmingham_pt2_annotated_reformatted.txt&quot;</span><span class="p">)</span>
+<span class="c1">#print(f&quot;{tracker} tweets were reformatted into Data/twemlab_goldstandards_annotated_reformatted/boston_annotated_reformatted.txt&quot;)</span>
+
+<span class="c1"># TRAIN FILE</span>
+
+<span class="n">tracker</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">iterator</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="c1">#with open(&quot;../Data/twemlab_goldstandards_annotated_reformatted/birmingham_pt1_train.txt&quot;, mode = &quot;w&quot;) as f:</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;../Data/twemlab_goldstandards_annotated_reformatted/birmingham_pt2_train.txt&quot;</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="c1">#with open(&quot;../Data/twemlab_goldstandards_annotated_reformatted/boston_train.txt&quot;, mode = &quot;w&quot;) as f:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;-DOCSTART-</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">all_docs</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">:</span>
+            <span class="c1">#every 10th tweet</span>
+            <span class="k">if</span> <span class="n">iterator</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">tweet</span><span class="p">:</span>
+                    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">word</span><span class="p">)</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">tracker</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">iterator</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="c1">#print(f&quot;{tracker} tweets were reformatted into Data/twemlab_goldstandards_annotated_reformatted/birmingham_pt1_train.txt&quot;)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tracker</span><span class="si">}</span><span class="s2"> tweets were reformatted into Data/twemlab_goldstandards_annotated_reformatted/birmingham_pt2_train.txt&quot;</span><span class="p">)</span>
+<span class="c1">#print(f&quot;{tracker} tweets were reformatted into Data/twemlab_goldstandards_annotated_reformatted/boston_train.txt&quot;)</span>
+
+<span class="c1"># TEST FILE</span>
+
+<span class="n">tracker</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">iterator</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="c1">#with open(&quot;../Data/twemlab_goldstandards_annotated_reformatted/birmingham_pt1_test.txt&quot;, mode = &quot;w&quot;) as f:</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;../Data/twemlab_goldstandards_annotated_reformatted/birmingham_pt2_test.txt&quot;</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="c1">#with open(&quot;../Data/twemlab_goldstandards_annotated_reformatted/boston_test.txt&quot;, mode = &quot;w&quot;) as f:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;-DOCSTART-</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">all_docs</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">:</span>
+            <span class="c1">#every 10th tweet</span>
+            <span class="k">if</span> <span class="n">iterator</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">tweet</span><span class="p">:</span>
+                    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">word</span><span class="p">)</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">tracker</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">iterator</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="c1">#print(f&quot;{tracker} tweets were reformatted into Data/twemlab_goldstandards_annotated_reformatted/bimingham_pt1_test.txt&quot;)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tracker</span><span class="si">}</span><span class="s2"> tweets were reformatted into Data/twemlab_goldstandards_annotated_reformatted/bimingham_pt2_test.txt&quot;</span><span class="p">)</span>
+<span class="c1">#print(f&quot;{tracker} tweets were reformatted into Data/twemlab_goldstandards_annotated_reformatted/boston_test.txt&quot;)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>493 tweets were reformatted into Data/twemlab_goldstandards_annotated_reformatted/birmingham_pt2_annotated_reformatted.txt
+443 tweets were reformatted into Data/twemlab_goldstandards_annotated_reformatted/birmingham_pt2_train.txt
+50 tweets were reformatted into Data/twemlab_goldstandards_annotated_reformatted/bimingham_pt2_test.txt
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="merge-datasets-into-single-files">
+<h2>Merge Datasets into Single Files<a class="headerlink" href="#merge-datasets-into-single-files" title="Permalink to this headline">#</a></h2>
+<p>Final Files:</p>
+<ul class="simple">
+<li><p>Twemlab_all_annotated_reformatted.txt (100% of all data)</p></li>
+<li><p>Twemlab_all_test.txt (10% of all data)</p></li>
+<li><p>Twemlab_all_train.txt (90% of all data)</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># empty variables</span>
+<span class="n">d1</span> <span class="o">=</span> <span class="n">d2</span> <span class="o">=</span> <span class="n">d3</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+<span class="c1"># read in the previous 3 files (boston reformatted, brimingham pt 1 reformatted, birmingham pt 2 reformatted)</span>
+<span class="c1">#with open(&quot;../Data/twemlab_goldstandards_annotated_reformatted/boston_annotated_reformatted.txt&quot;) as fp:</span>
+<span class="c1">#with open(&quot;../Data/twemlab_goldstandards_annotated_reformatted/boston_test.txt&quot;) as fp:</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;../Data/twemlab_goldstandards_annotated_reformatted/boston_train.txt&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+    <span class="n">d1</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="c1">#with open(&quot;../Data/twemlab_goldstandards_annotated_reformatted/birmingham_pt1_annotated_reformatted.txt&quot;) as fp:</span>
+<span class="c1">#with open(&quot;../Data/twemlab_goldstandards_annotated_reformatted/birmingham_pt1_test.txt&quot;) as fp:</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;../Data/twemlab_goldstandards_annotated_reformatted/birmingham_pt1_train.txt&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+    <span class="n">d2</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="c1">#with open(&quot;../Data/twemlab_goldstandards_annotated_reformatted/birmingham_pt2_annotated_reformatted.txt&quot;) as fp:</span>
+<span class="c1">#with open(&quot;../Data/twemlab_goldstandards_annotated_reformatted/birmingham_pt2_test.txt&quot;) as fp:</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;../Data/twemlab_goldstandards_annotated_reformatted/birmingham_pt2_train.txt&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+    <span class="n">d3</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="c1"># merge files</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">d1</span> <span class="o">+</span>  <span class="n">d2</span> <span class="o">+</span> <span class="n">d3</span> 
+
+<span class="c1">#with open(&quot;../Data/twemlab_goldstandards_annotated_reformatted/twemlab_all_annotated_reformatted.txt&quot;, &quot;w&quot;) as fp:</span>
+<span class="c1">#with open(&quot;../Data/twemlab_goldstandards_annotated_reformatted/twemlab_all_test.txt&quot;, &quot;w&quot;) as fp:</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;../Data/twemlab_goldstandards_annotated_reformatted/twemlab_all_train.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+    <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="GRACE_trained_for_ABEA_on_twitter_data.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Aspect-Based Emotion Analysis on Twitter Data</p>
+        </div>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By The Jupyter Book Community<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

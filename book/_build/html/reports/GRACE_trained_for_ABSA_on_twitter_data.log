@@ -1,0 +1,329 @@
+Traceback (most recent call last):
+  File "D:\Users\Christina\Programmes\envs\GRACE_GPU\lib\site-packages\jupyter_cache\executors\utils.py", line 51, in single_nb_execution
+    executenb(
+  File "D:\Users\Christina\Programmes\envs\GRACE_GPU\lib\site-packages\nbclient\client.py", line 1204, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "D:\Users\Christina\Programmes\envs\GRACE_GPU\lib\site-packages\nbclient\util.py", line 84, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "D:\Users\Christina\Programmes\envs\GRACE_GPU\lib\site-packages\nbclient\util.py", line 62, in just_run
+    return loop.run_until_complete(coro)
+  File "D:\Users\Christina\Programmes\envs\GRACE_GPU\lib\asyncio\base_events.py", line 647, in run_until_complete
+    return future.result()
+  File "D:\Users\Christina\Programmes\envs\GRACE_GPU\lib\site-packages\nbclient\client.py", line 663, in async_execute
+    await self.async_execute_cell(
+  File "D:\Users\Christina\Programmes\envs\GRACE_GPU\lib\site-packages\nbclient\client.py", line 965, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "D:\Users\Christina\Programmes\envs\GRACE_GPU\lib\site-packages\nbclient\client.py", line 862, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+# higher-level contents of one encoder
+class BertLayer(nn.Module):
+    def __init__(self, config):
+        super(BertLayer, self).__init__()
+        self.attention = BertAttention(config)  # multi-head scaled-dot prodcut self-attention
+        self.intermediate = BertIntermediate(config)  # feed forward linear and normalisation
+        self.output = BertOutput(config)
+
+    def forward(self, hidden_states, attention_mask):
+        attention_output = self.attention(hidden_states, attention_mask)
+        intermediate_output = self.intermediate(attention_output)
+        layer_output = self.output(intermediate_output, attention_output)
+        return layer_output
+
+
+
+# An encoder block (x12 in GRACE)
+class BertEncoder(nn.Module):
+    def __init__(self, config):
+        super(BertEncoder, self).__init__()
+        layer = BertLayer(config)
+        self.layer = nn.ModuleList([copy.deepcopy(layer) for _ in range(config.num_hidden_layers)]) # 12 
+
+    def forward(self, hidden_states, attention_mask, output_all_encoded_layers=True):
+        all_encoder_layers = []
+        for layer_module in self.layer:
+            hidden_states = layer_module(hidden_states, attention_mask)
+            if output_all_encoded_layers:
+                all_encoder_layers.append(hidden_states)
+        if not output_all_encoded_layers:
+            all_encoder_layers.append(hidden_states)
+        return all_encoder_layers
+
+
+
+ # pooler layer for summarization based on [CLS] token
+class BertPooler(nn.Module):
+    def __init__(self, config):
+        super(BertPooler, self).__init__()
+        self.dense = nn.Linear(config.hidden_size, config.hidden_size)
+        self.activation = nn.Tanh()
+
+    def forward(self, hidden_states):
+        # We "pool" the model by simply taking the hidden state corresponding
+        # to the first token.
+        first_token_tensor = hidden_states[:, 0]
+        pooled_output = self.dense(first_token_tensor)
+        pooled_output = self.activation(pooled_output)
+        return pooled_output
+
+
+
+# model class using pretrained configurations
+class BertModel(PreTrainedBertModel):
+    """BERT model ("Bidirectional Embedding Representations from a Transformer").
+    Params:
+        config: a BertConfig class instance with the configuration to build a new model
+    Inputs:
+        `input_ids`: a torch.LongTensor of shape [batch_size, sequence_length]
+            with the word token indices in the vocabulary(see the tokens preprocessing logic in the scripts
+            `extract_features.py`, `run_classifier.py` and `run_squad.py`)
+        `token_type_ids`: an optional torch.LongTensor of shape [batch_size, sequence_length] with the token
+            types indices selected in [0, 1]. Type 0 corresponds to a `sentence A` and type 1 corresponds to
+            a `sentence B` token (see BERT paper for more details).
+        `attention_mask`: an optional torch.LongTensor of shape [batch_size, sequence_length] with indices
+            selected in [0, 1]. It's a mask to be used if the input sequence length is smaller than the max
+            input sequence length in the current batch. It's the mask that we typically use for attention when
+            a batch has varying length sentences.
+        `output_all_encoded_layers`: boolean which controls the content of the `encoded_layers` output as described below. Default: `True`.
+    Outputs: Tuple of (encoded_layers, pooled_output)
+        `encoded_layers`: controled by `output_all_encoded_layers` argument:
+            - `output_all_encoded_layers=True`: outputs a list of the full sequences of encoded-hidden-states at the end
+                of each attention block (i.e. 12 full sequences for BERT-base, 24 for BERT-large), each
+                encoded-hidden-state is a torch.FloatTensor of size [batch_size, sequence_length, hidden_size],
+            - `output_all_encoded_layers=False`: outputs only the full sequence of hidden-states corresponding
+                to the last attention block of shape [batch_size, sequence_length, hidden_size],
+        `pooled_output`: a torch.FloatTensor of size [batch_size, hidden_size] which is the output of a
+            classifier pretrained on top of the hidden state associated to the first character of the
+            input (`CLF`) to train on the Next-Sentence task (see BERT's paper).
+    Example usage:
+    ```python
+    # Already been converted into WordPiece token ids
+    input_ids = torch.LongTensor([[31, 51, 99], [15, 5, 0]])
+    input_mask = torch.LongTensor([[1, 1, 1], [1, 1, 0]])
+    token_type_ids = torch.LongTensor([[0, 0, 1], [0, 1, 0]])
+    config = modeling.BertConfig(vocab_size_or_config_json_file=32000, hidden_size=768,
+        num_hidden_layers=12, num_attention_heads=12, intermediate_size=3072)
+    model = modeling.BertModel(config=config)
+    all_encoder_layers, pooled_output = model(input_ids, token_type_ids, input_mask)
+    ```
+
+
+
+# BertModel then again is used to compose a whole classification task workflow, e.g.:
+class BertForSequenceClassification(PreTrainedBertModel):
+    """BERT model for classification.
+    This module is composed of the BERT model with a linear layer on top of
+    the pooled output.
+    Params:
+        `config`: a BertConfig class instance with the configuration to build a new model.
+        `num_labels`: the number of classes for the classifier. Default = 2.
+    Inputs:
+        `input_ids`: a torch.LongTensor of shape [batch_size, sequence_length]
+            with the word token indices in the vocabulary(see the tokens preprocessing logic in the scripts
+            `extract_features.py`, `run_classifier.py` and `run_squad.py`)
+        `token_type_ids`: an optional torch.LongTensor of shape [batch_size, sequence_length] with the token
+            types indices selected in [0, 1]. Type 0 corresponds to a `sentence A` and type 1 corresponds to
+            a `sentence B` token (see BERT paper for more details).
+        `attention_mask`: an optional torch.LongTensor of shape [batch_size, sequence_length] with indices
+            selected in [0, 1]. It's a mask to be used if the input sequence length is smaller than the max
+            input sequence length in the current batch. It's the mask that we typically use for attention when
+            a batch has varying length sentences.
+        `labels`: labels for the classification output: torch.LongTensor of shape [batch_size]
+            with indices selected in [0, ..., num_labels].
+    Outputs:
+        if `labels` is not `None`:
+            Outputs the CrossEntropy classification loss of the output with the labels.
+        if `labels` is `None`:
+            Outputs the classification logits of shape [batch_size, num_labels].
+    Example usage:
+    ```python
+    # Already been converted into WordPiece token ids
+    input_ids = torch.LongTensor([[31, 51, 99], [15, 5, 0]])
+    input_mask = torch.LongTensor([[1, 1, 1], [1, 1, 0]])
+    token_type_ids = torch.LongTensor([[0, 0, 1], [0, 1, 0]])
+    config = BertConfig(vocab_size_or_config_json_file=32000, hidden_size=768,
+        num_hidden_layers=12, num_attention_heads=12, intermediate_size=3072)
+    num_labels = 2
+    model = BertForSequenceClassification(config, num_labels)
+    logits = model(input_ids, token_type_ids, input_mask)
+
+
+# complete asc ate workflow initialisation:
+class BertForSequenceLabeling(PreTrainedBertModel):
+    #
+    def __init__(self, config, num_tp_labels, task_config):
+        super(BertForSequenceLabeling, self).__init__(config)
+        self.num_tp_labels = num_tp_labels
+        self.task_config = task_config
+
+        at_label_list = self.task_config["at_labels"]
+        self.at_label_map = {i: label for i, label in enumerate(at_label_list)}
+        assert len(at_label_list) == 3, "Hard code works when doing BIO strategy, " \
+                                        "due to the middle step to generate span boundary."
+        self.I_AP_INDEX = 2     # Note: This operation works when doing BIO strategy
+        assert self.at_label_map[self.I_AP_INDEX] == "I-AP", "A hard code need the index below."
+
+        self.num_encoder_labels = self.num_tp_labels[0]
+        self.bert = BertModel(config)
+        self.classifier = nn.Linear(config.hidden_size, self.num_encoder_labels)
+
+        if self.task_config["use_ghl"]:
+            self.weighted_ce_loss_fct = WeightedCrossEntropy(ignore_index=-1)
+        else:
+            self.ce_loss_fct = CrossEntropyLoss(ignore_index=-1)
+
+        ## Gradient balance <---
+        self.bins = 24
+        self.momentum = 0.75
+        self.edges = torch.arange(self.bins + 1).float() / self.bins
+        self.edges[-1] += 1e-6
+        self.acc_sum = torch.zeros(self.bins, dtype=torch.float)
+
+        self.decoder_bins = 24
+        self.decoder_momentum = 0.75
+        self.decoder_edges = torch.arange(self.bins + 1).float() / self.bins
+        self.decoder_edges[-1] += 1e-6
+        self.decoder_acc_sum = torch.zeros(self.bins, dtype=torch.float)
+        self.decoder_weight_gradient = None
+        self.decoder_weight_gradient_labels = None
+        ## --->
+
+        self.use_vat = self.task_config["use_vat"]
+        if self.use_vat:
+            self.alpha = 1.
+            self.xi = 1e-6
+            self.epsilon = 2.
+            self.ip = 1
+
+        self.num_decoder_labels = self.num_tp_labels[1]
+        if config.hidden_size == 768:
+            decoder_config, _ = PreTrainedDecoderBertModel.get_config("decoder-bert-base")
+        else:
+            raise ValueError("No implementation on such a decoder config.")
+
+        self.decoder_shared_layer = self.task_config["decoder_shared_layer"]
+        decoder_config.decoder_vocab_size = self.num_encoder_labels
+        decoder_config.num_decoder_layers = self.task_config["num_decoder_layer"]
+        bert_position_embeddings_weight = self.bert.embeddings.position_embeddings.weight
+
+        # NOTE: DecoderBertModel is adapted from the Transformer decoder.
+        # It is not a decoder used as generation task. It is used as labeling task here.
+        self.decoder = DecoderBertModel(decoder_config, bert_position_embeddings_weight)
+        self.decoder_classifier = nn.Linear(config.hidden_size, self.num_decoder_labels)
+
+        self.dropout = nn.Dropout(config.hidden_dropout_prob)
+        self.dense = nn.Linear(config.hidden_size, config.hidden_size)
+        self.activation = ACT2FN[config.hidden_act] # nn.Tanh()
+
+        self.apply(self.init_bert_weights)
+
+    # Virtual Adversarial Training Implementation
+    def vat_loss(self, input_ids, token_type_ids, attention_mask):
+        # LDS should be calculated before the forward for cross entropy
+        with torch.no_grad():
+            _pred_logits, _, _ = self.get_encoder_logits(input_ids, token_type_ids, attention_mask)
+            pred = F.softmax(_pred_logits, dim=2)
+
+        # prepare random unit tensor
+        batch_size_, seq_length_ = input_ids.size()
+        hidden_size_ = self.bert.config.hidden_size
+        d = torch.randn(batch_size_, seq_length_, hidden_size_, device=input_ids.device)
+
+        with _disable_tracking_bn_stats(self):
+            # calc adversarial direction
+            for _ in range(self.ip):
+                d.requires_grad_()
+                xi_d = self.xi * _l2_normalize_foremd(_mask_by_length(d, attention_mask))
+                xi_d.retain_grad()
+                words_embeddings_ = self.bert.embeddings.word_embeddings(input_ids)
+                pred_hat, _, _ = self.get_encoder_logits(words_embeddings_ + xi_d, token_type_ids, attention_mask,
+                                                   bool_input_embedding=True)
+                logp_hat_i = F.log_softmax(pred_hat, dim=2).view(-1, self.num_encoder_labels)
+                pred_i = pred.view(-1, self.num_encoder_labels)
+                adv_distance = F.kl_div(logp_hat_i, pred_i, reduction='batchmean')
+                adv_distance.backward()
+                d = xi_d.grad
+                self.zero_grad()
+
+            # calc LDS
+            r_adv = _l2_normalize_foremd(d.detach()) * self.epsilon
+            words_embeddings_ = self.bert.embeddings.word_embeddings(input_ids)
+
+            pred_hat, _, _ = self.get_encoder_logits(words_embeddings_+r_adv, token_type_ids, attention_mask,
+                                               bool_input_embedding=True)
+            logp_hat_i = F.log_softmax(pred_hat, dim=2).view(-1, self.num_encoder_labels)
+            pred_i = pred.view(-1, self.num_encoder_labels)
+            lds = F.kl_div(logp_hat_i, pred_i, reduction='batchmean')
+        return lds
+
+    # Gradient Harmonized Loss Implementation
+    def calculate_ce_gradient_weight(self, logits, labels, attention_mask, num_labels,
+                         acc_sum, bins, momentum, edges, weight_gradient=None, weight_gradient_labels=None):
+        device = logits.device
+        batch_size, sequence_length = labels.size()
+        # Here using crf_label_ids for CE labels have -1 value.
+        labels_onehot = torch.zeros(batch_size, sequence_length, num_labels, dtype=torch.float, device=device)
+        crf_label_ids = labels.clone()
+        crf_label_ids[crf_label_ids < 0] = 0.
+        labels_onehot.scatter_(2, crf_label_ids.unsqueeze(2), 1)
+        # gradient length
+        gradient = torch.abs(F.softmax(logits.detach(), dim=-1) - labels_onehot)
+
+        weights, acc_sum, weight_gradient, weight_gradient_labels \
+            = self.statistic_weight(gradient, logits, labels, attention_mask, num_labels,
+                                    acc_sum, bins, momentum, edges, weight_gradient, weight_gradient_labels)
+
+        return weights, acc_sum, weight_gradient, weight_gradient_labels
+
+    def statistic_weight(self, gradient, logits, labels, attention_mask, num_labels,
+                         acc_sum, bins, momentum, edges,
+                         weight_gradient=None, weight_gradient_labels=None):
+        device = logits.device
+        batch_size, sequence_length = labels.size()
+
+        if weight_gradient is None:
+            weight_gradient = torch.zeros(self.bins).to(device)
+        if weight_gradient_labels is None:
+            weight_gradient_labels = torch.zeros(self.bins, num_labels).to(device)
+
+        edges = self.edges.to(device)
+        momentum = self.momentum
+        weights = torch.ones_like(logits)
+
+        valid_instance = attention_mask.unsqueeze(-1).expand(batch_size, sequence_length, num_labels)
+        valid_instance = valid_instance > 0
+        total_valid = max(valid_instance.float().sum().item(), 1.0)
+        n = 0  # n valid bins
+        for i in range(self.bins):
+            inds = (gradient >= edges[i]) & (gradient < edges[i + 1]) & valid_instance
+
+            num_in_bin_label = inds.sum(0).sum(0).to(dtype=weight_gradient_labels.dtype)
+            weight_gradient_labels[i, :] = weight_gradient_labels[i, :] + num_in_bin_label
+
+            num_in_bin = inds.sum().item()
+
+            weight_gradient[i] = weight_gradient[i] + num_in_bin
+
+            if num_in_bin > 0:
+                if momentum > 0:
+                    index_tensor = torch.tensor(i)
+                    val_ = torch.gather(acc_sum, dim=0, index=index_tensor)
+                    momentum_bins = momentum * float(val_.item()) + (1 - momentum) * num_in_bin
+                    weights[inds] = total_valid / momentum_bins
+                    acc_sum.scatter_(0, index_tensor, momentum_bins)
+                else:
+                    weights[inds] = total_valid / num_in_bin
+                n += 1
+
+        return weights, acc_sum, weight_gradient, weight_gradient_labels
+
+------------------
+
+[1;36m  Cell [1;32mIn[1], line 96[1;36m[0m
+[1;33m    """BERT model for classification.[0m
+[1;37m       ^[0m
+[1;31mSyntaxError[0m[1;31m:[0m invalid syntax
+
+SyntaxError: invalid syntax (1578268696.py, line 96)
+
